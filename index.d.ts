@@ -1,6 +1,6 @@
 /**
  * Checks if the given argument matches the given type-argument.
- * 
+ *
  * @param object object whose type needs to be checked.
  * @returns `true` if `object` matches `T`, false otherwise.
  * @example
@@ -9,13 +9,13 @@
    is<number>('foo'); // -> false
    ```
  */
-export function is<T>(object: any): object is T;
+export function is<T, O=T>(object: any): object is T;
 
 /**
  * Creates a function similar to `is<T>` that can be invoked at a later point.
- * 
+ *
  * This is useful, for example, if you want to re-use the function multiple times.
- * 
+ *
  * @example
    ```
    const checkNumber = createIs<number>();
@@ -23,12 +23,12 @@ export function is<T>(object: any): object is T;
    checkNumber('foo'); // -> false
    ```
  */
-export function createIs<T>(): (object: any) => object is T;
+export function createIs<T, O=T>(): (object: any) => object is T;
 
 /**
  * Asserts the given argument to be of the given type-argument.
  * If the given argument does not match the given type-argument, an error will be thrown.
- * 
+ *
  * @param object object whose type will be asserted.
  * @returns the given `object`, or an error is thrown if validation failed.
  * @example
@@ -37,13 +37,13 @@ export function createIs<T>(): (object: any) => object is T;
    assertType<number>('foo'); // throws an error
    ```
  */
-export function assertType<T>(object: any): T;
+export function assertType<T, O=T>(object: any): T;
 
 /**
  * Creates a function similar to `assertType<T>` that can be invoked at a later point.
- * 
+ *
  * This is useful, for example, if you want to re-use the function multiple times.
- * 
+ *
  * @example
    ```
    const assertNumber = createAssertType<number>();
@@ -51,7 +51,7 @@ export function assertType<T>(object: any): T;
    assertNumber('foo'); // throws an error
    ```
  */
-export function createAssertType<T>(): (object: any) => T;
+export function createAssertType<T, O=T>(): (object: any) => T;
 
 /**
  * Options for the `AssertType` decorator.
@@ -66,10 +66,10 @@ export interface AssertTypeOptions {
 /**
  * Creates a type assertion and saves it in the reflection metadata of the method's class.
  * Then, when the class is decorated with `ValidateClass`, the method's arguments will be validated.
- * 
+ *
  * @param options options for the decorator.
  * Check `AssertTypeOptions` documentation for more information.
- * 
+ *
  * @example
  * ```
    @ValidateClass()
@@ -82,7 +82,7 @@ export function AssertType(options?: AssertTypeOptions): (target: object, proper
 
 /**
  * Overrides methods in the target class with a proxy that will first validate the argument types.
- * 
+ *
  * @param errorConstructor a constructor of an `Error` class.
  * This will be used to create an error when validation fails.
  * @example
@@ -99,7 +99,7 @@ export function ValidateClass(errorConstructor?: { new(): Error }): <TFunction e
  * Class which helps catch errors specifically from this library.
  * When `assertType` or `createAssertType` throw an error, it uses this class to create an instance.
  * By default, a class decorated with `@ValidateClass` will also throw errors of this class, unless it's overriden using the options.
- * 
+ *
  * @example
  * ```
    // Somewhere in the code:

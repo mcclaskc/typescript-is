@@ -66,6 +66,7 @@ function transformNode(node: ts.Node, visitorContext: VisitorContext): ts.Node {
             && node.typeArguments !== undefined
             && node.typeArguments.length === 1
         ) {
+            console.log(node);
             const typeArgument = node.typeArguments[0];
             const accessor = node.arguments[0];
             return visitTypeNode(typeArgument, accessor, { ...visitorContext, typeCheckFunctionAccessorTopLevel: node.expression });

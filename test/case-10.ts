@@ -1,7 +1,38 @@
 import * as assert from 'assert';
-import { createIs, createAssertType } from '../index';
+import {createIs, createAssertType} from '../index';
 
 describe('createIs', () => {
+    describe('overrides', () => {
+        describe('createIs<number, string>', () => {
+            const isNumberEvenThoughItReallyIsAString = createIs<number, string>();
+        
+            it('should return a function', () => {
+                assert.strictEqual(typeof isNumberEvenThoughItReallyIsAString, 'function');
+            });
+        
+            it('should return a function that returns true for numbers', () => {
+                assert.strictEqual(isNumberEvenThoughItReallyIsAString(-1), true);
+                assert.strictEqual(isNumberEvenThoughItReallyIsAString(0), true);
+                assert.strictEqual(isNumberEvenThoughItReallyIsAString(1), true);
+                assert.strictEqual(isNumberEvenThoughItReallyIsAString(Number.NaN), true);
+                assert.strictEqual(isNumberEvenThoughItReallyIsAString(Number.POSITIVE_INFINITY), true);
+                assert.strictEqual(isNumberEvenThoughItReallyIsAString(Number.NEGATIVE_INFINITY), true);
+                assert.strictEqual(isNumberEvenThoughItReallyIsAString(42), true);
+            });
+        
+            it('should return a function that returns false for other objects', () => {
+                assert.strictEqual(isNumberEvenThoughItReallyIsAString(''), false);
+                assert.strictEqual(isNumberEvenThoughItReallyIsAString('1'), false);
+                assert.strictEqual(isNumberEvenThoughItReallyIsAString(true), false);
+                assert.strictEqual(isNumberEvenThoughItReallyIsAString(false), false);
+                assert.strictEqual(isNumberEvenThoughItReallyIsAString(undefined), false);
+                assert.strictEqual(isNumberEvenThoughItReallyIsAString(null), false);
+                assert.strictEqual(isNumberEvenThoughItReallyIsAString({}), false);
+                assert.strictEqual(isNumberEvenThoughItReallyIsAString([]), false);
+            });
+        });
+    });
+    
     describe('createIs<number>', () => {
         const isNumber = createIs<number>();
 

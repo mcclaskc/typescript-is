@@ -2,6 +2,17 @@ import * as assert from 'assert';
 import { is } from '../index';
 
 describe('is', () => {
+    describe('overrides', () => {
+        describe('is<number, string>', () => {
+            it('should return false for numbers', async () => {
+                assert.strictEqual(is<number, string>(0), false);
+            });
+            it('should return true for strings', async () => {
+                assert.strictEqual(is<number, string>('0'), true);
+            });
+        });
+    });
+
     describe('is<number | boolean>', () => {
         it('should return true for numbers', () => {
             assert.strictEqual(is<number | boolean>(0), true);

@@ -98,9 +98,11 @@ export function transformNode(node: ts.Node, visitorContext: PartialVisitorConte
             && signature.declaration !== undefined
             && path.resolve(signature.declaration.getSourceFile().fileName) === path.resolve(path.join(__dirname, '..', '..', 'index.d.ts'))
             && node.typeArguments !== undefined
-            && node.typeArguments.length === 1
+            && (
+                node.typeArguments.length === 2
+            )
         ) {
-            const typeArgument = node.typeArguments[0];
+            const typeArgument = node.typeArguments[1];
             const type = visitorContext.checker.getTypeFromTypeNode(typeArgument);
             const arrowFunction = createArrowFunction(type, false, visitorContext);
 
